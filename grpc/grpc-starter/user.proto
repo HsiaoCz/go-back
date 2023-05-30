@@ -1,0 +1,25 @@
+syntax="proto3";
+
+package users;
+
+option go_package="users";
+
+message User{
+    // 定义枚举
+    enum UserStatus{
+        Unknown=0;
+        Activite=1;
+        InActive=2;
+    }
+
+    int64 id=1;
+    string name=2;
+    string email=3;
+    string password=4;
+    string created_at=5;
+    string updated_at=6;
+    UserStatus status=7;
+
+    // repeated 声明数组
+    repeated string mobiles=8;
+}
