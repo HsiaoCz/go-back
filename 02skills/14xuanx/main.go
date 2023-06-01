@@ -1,9 +1,5 @@
 package main
 
-import "fmt"
-
-// 选项模式
-
 type OptFunc func(*Opts)
 
 type Opts struct {
@@ -24,9 +20,9 @@ func defaultOpts() Opts {
 	}
 }
 
-func withTLS(isTLS bool) OptFunc {
+func withTLS(isTls bool) OptFunc {
 	return func(o *Opts) {
-		o.tls = isTLS
+		o.tls = isTls
 	}
 }
 
@@ -36,23 +32,20 @@ func withID(id string) OptFunc {
 	}
 }
 
-func withMaxConn(maxc int) OptFunc {
+func withMaxConn(maxconn int) OptFunc {
 	return func(o *Opts) {
-		o.maxConn = maxc
+		o.maxConn = maxconn
 	}
 }
 
 func newServer(opts ...OptFunc) *Server {
 	o := defaultOpts()
+
 	for _, fn := range opts {
 		fn(&o)
 	}
+
 	return &Server{
 		opts: o,
 	}
-}
-
-func main() {
-	s := newServer(withTLS(false), withMaxConn(99), withID("hello"))
-	fmt.Printf("%+v\n", s)
 }
