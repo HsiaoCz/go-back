@@ -42,3 +42,11 @@ git的优势：
 
 github:基于git的共有代码仓库
 gitlab:基于git的私有代码仓库
+
+gitlab:CPU 内存 磁盘 IO够快 网卡
+
+gitlab下载:
+
+可以到清华开源软件镜像站下载
+
+
