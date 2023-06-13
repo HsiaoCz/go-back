@@ -68,4 +68,8 @@ func main() {
 	af := new(AppleFactory)
 	apple := af.CreateFruit()
 	apple.Show()
+
+	bf := new(BananaFactory)
+	banana := bf.CreateFruit()
+	banana.Show()
 }
