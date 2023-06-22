@@ -217,3 +217,112 @@ else
    echo "a 不等于 b"
 fi
 ```
+
+**6、文件相关运算符**
+
+- -b file 检测文件是否为块设备文件，是返回 true
+- -c file 字符设备
+- -d file 目录文件
+- -f file 普通文件 既不是目录，也不是设备
+- -g file 是否设置了 SGID 位
+- -k file 是否设置了粘着位
+- -p file 是否是有名管道
+- -u file 是否设置了 SUID 位
+- -r file 是否可读
+- -w file 是否可写
+- -x file 是否可执行
+- -s file 是否为空
+- -e file 是否存在(包括目录)
+
+```sh
+# 比如我们定义好了一个文件路径file="/usr/learnshell/test.sh"
+# 如果我们想判断这个文件是否可读
+file= "/usr/local/bin/kratos"
+if [ -r $file]
+```
+
+### 5、shell 流程控制
+
+**if 条件语句**
+
+```sh
+a=3;
+b=9;
+if [ $a -eq $b ]
+then
+   echo "a 等于 b"
+elif [ $a -gt $b ]
+then
+   echo "a 大于 b"
+else
+   echo "a 小于 b"
+fi
+
+```
+
+shell if 条件语句中不能包含空语句也就是什么都不做的语句。
+
+**for 循环语句**
+
+输出当前列表中的数据
+
+```sh
+for loop in 1 2 3 4 5
+
+do
+
+  echo "the value is : $loop"
+
+done
+```
+
+产生 10 个随机数
+
+```sh
+for i in {0..9};
+do
+   echo $RANDOM;
+done
+```
+
+输出 1 到 5
+
+```sh
+# 通常情况下 shell 变量调用需要加 $,但是 for 的 (()) 中不需要,下面来看一个例子
+for((i=1;i<=5;i++));do
+    echo $i;
+done;
+```
+
+**while 语句**
+
+基本 while 循环语句
+
+```sh
+int=1
+while(( $int<=5 ))
+do
+    echo $int
+    let "int++"
+done
+```
+
+while 循环可用于读取键盘信息
+
+```sh
+echo '按下 <CTRL-D> 退出'
+echo -n '输入你最喜欢的电影: '
+while read FILM
+do
+    echo "是的！$FILM 是一个好电影"
+done
+```
+
+无限循环
+
+```sh
+while true
+do
+    command
+done
+```
