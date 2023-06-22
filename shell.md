@@ -12,13 +12,15 @@ touch helloworld.sh
 chmod +x helloworld.sh
 
 # 3、编辑helloworld.sh文件，增加
-
+#!/bin/bash
 echo "helloworld"
 
 # 4、执行
 
 ./hellowrold.sh
 ```
+
+> shell 的第一行比较特殊，一般都会以#!开始来指定使用的 shell 类型
 
 ### 2、shell 当中的变量
 
@@ -43,6 +45,7 @@ echo "helloworld"
 使用 linux 已定义的环境变量
 
 ```sh
+#!/bin/bash
 # hellowrold.sh
 # 自定义变量
 hello="helloworld"
@@ -135,6 +138,7 @@ s5=${var##*/} #linux-shell-variable.html
 bash 中支持一维数组，并不支持多维数组
 
 ```sh
+#!/bin/bash
 array=(1 2 3 4 5);
 # 获取数组长度
 length=${#array[@]}
@@ -156,6 +160,7 @@ for i in ${array[@]};do echo $i ;done # 遍历数组，数组元素为空，没�
 **1、算术运算符**
 
 ```sh
+#!/bin/bash
 a=3;b=3;
 val=`expr $a + $b`
 #输出：Total value : 6
@@ -172,6 +177,7 @@ echo "Total value : $val"
 - -gt 大于
 
 ```sh
+#!/bin/bash
 score=90;
 maxscore=100;
 if [ $score -eq $maxscore ]
@@ -188,6 +194,7 @@ fi
 - || or
 
 ```sh
+#!/bin/bash
 a=$(( 1 && 0))
 # 输出：0；逻辑与运算只有相与的两边都是1，与的结果才是1；否则与的结果是0
 echo $a;
@@ -208,6 +215,7 @@ echo $a;
 - str 检测字符串是否为空，不为空返回 true
 
 ```sh
+#!/bin/bash
 a="abc";
 b="efg";
 if [ $a = $b ]
@@ -235,6 +243,7 @@ fi
 - -e file 是否存在(包括目录)
 
 ```sh
+#!/bin/bash
 # 比如我们定义好了一个文件路径file="/usr/learnshell/test.sh"
 # 如果我们想判断这个文件是否可读
 file= "/usr/local/bin/kratos"
@@ -246,6 +255,7 @@ if [ -r $file]
 **if 条件语句**
 
 ```sh
+#!/bin/bash
 a=3;
 b=9;
 if [ $a -eq $b ]
@@ -267,6 +277,7 @@ shell if 条件语句中不能包含空语句也就是什么都不做的语句�
 输出当前列表中的数据
 
 ```sh
+#!/bin/bash
 for loop in 1 2 3 4 5
 
 do
@@ -279,6 +290,7 @@ done
 产生 10 个随机数
 
 ```sh
+#!/bin/bash
 for i in {0..9};
 do
    echo $RANDOM;
@@ -288,6 +300,7 @@ done
 输出 1 到 5
 
 ```sh
+#!/bin/bash
 # 通常情况下 shell 变量调用需要加 $,但是 for 的 (()) 中不需要,下面来看一个例子
 for((i=1;i<=5;i++));do
     echo $i;
@@ -299,6 +312,7 @@ done;
 基本 while 循环语句
 
 ```sh
+#!/bin/bash
 int=1
 while(( $int<=5 ))
 do
@@ -310,6 +324,7 @@ done
 while 循环可用于读取键盘信息
 
 ```sh
+#!/bin/bash
 echo '按下 <CTRL-D> 退出'
 echo -n '输入你最喜欢的电影: '
 while read FILM
@@ -321,6 +336,7 @@ done
 无限循环
 
 ```sh
+#!/bin/bash
 while true
 do
     command
@@ -332,6 +348,7 @@ done
 **不带参数，没有返回值的函数**
 
 ```sh
+#!/bin/bash
 hello(){
     echo "这是我的第一个 shell 函数!"
 }
@@ -343,6 +360,7 @@ echo "-----函数执行完毕-----"
 有返回值的函数
 
 ```sh
+#!/bin/bash
 funWithReturn(){
     echo "输入第一个数字: "
     read aNum
@@ -358,6 +376,7 @@ echo "输入的两个数字之和为 $?"
 带参数的函数
 
 ```sh
+#!/bin/bash
 funWithParam(){
     echo "第一个参数为 $1 !"
     echo "第二个参数为 $2 !"
