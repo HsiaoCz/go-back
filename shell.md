@@ -131,3 +131,89 @@ s5=${var##*/} #linux-shell-variable.html
 ```
 
 ### 3、shell 中的数组
+
+bash 中支持一维数组，并不支持多维数组
+
+```sh
+array=(1 2 3 4 5);
+# 获取数组长度
+length=${#array[@]}
+# 或者
+length2=${#array[*]}
+#输出数组长度
+echo $length #输出：5
+echo $length2 #输出：5
+# 输出数组第三个元素
+echo ${array[2]} #输出：3
+unset array[1]# 删除下标为1的元素也就是删除第二个元素
+for i in ${array[@]};do echo $i ;done # 遍历数组，输出：1 3 4 5
+unset array; # 删除数组中的所有元素
+for i in ${array[@]};do echo $i ;done # 遍历数组，数组元素为空，没有任何输出内容
+```
+
+### 4、shell 基本运算符
+
+**1、算术运算符**
+
+```sh
+a=3;b=3;
+val=`expr $a + $b`
+#输出：Total value : 6
+echo "Total value : $val"
+```
+
+**2、关系运算符**
+
+- -eq 检测是否相等
+- -ne 是否不等
+- -le 小于等于
+- -ge 大于等于
+- -lt 小于
+- -gt 大于
+
+```sh
+score=90;
+maxscore=100;
+if [ $score -eq $maxscore ]
+then
+   echo "A"
+else
+   echo "B"
+fi
+```
+
+**3、逻辑运算**
+
+- && and
+- || or
+
+```sh
+a=$(( 1 && 0))
+# 输出：0；逻辑与运算只有相与的两边都是1，与的结果才是1；否则与的结果是0
+echo $a;
+```
+
+**4、布尔运算符**
+
+- ! 非运算
+- -o 或运算
+- -a 与运算
+
+**5、字符串运算**
+
+- = 检测两个字符串是否相等,是返回 true
+- != 检测两个字符串是否相等,不是返回 true
+- -z 检测字符串长度是否为 0，为 0 返回 true
+- -n 检测字符串长度是否为 0，不为 0 返回 true
+- str 检测字符串是否为空，不为空返回 true
+
+```sh
+a="abc";
+b="efg";
+if [ $a = $b ]
+then
+   echo "a 等于 b"
+else
+   echo "a 不等于 b"
+fi
+```
