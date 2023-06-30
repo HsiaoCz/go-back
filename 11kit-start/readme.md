@@ -42,9 +42,9 @@ protoc -I=pb \
    pb/kitstart.proto
 ```
 
-新建三个文件夹，分别为service transport endpoint
+新建三个文件夹，分别为 service transport endpoint
 
-service这层主要负责实现业务逻辑
+service 这层主要负责实现业务逻辑
 
 ```go
 // service.go
@@ -52,14 +52,41 @@ service这层主要负责实现业务逻辑
 
 ```
 
-endpoint层负责存放项目对外暴露的rpc方法
+endpoint 层负责存放项目对外暴露的 rpc 方法
 
 ```go
 // endpoint.go
 ```
 
-transport表示项目对外通信的相关部分
+transport 表示项目对外通信的相关部分
 
 ```go
 
+```
+
+## 2、中间件
+
+在 go kit 中，对中间件的定义是接收 Endpoint 并返回 Endpoint 的函数
+
+```go
+type Middleware func(Endpoint) Endpoint
+```
+
+```go
+import (
+	"context"
+
+	"github.com/go-kit/kit/endpoint"
+	"github.com/go-kit/log"
+)
+
+func loggingMiddleware(logger log.Logger) endpoint.Middleware {
+	return func(next endpoint.Endpoint) endpoint.Endpoint {
+		return func(ctx context.Context, request interface{}) (interface{}, error) {
+			logger.Log("msg", "calling endpoint")
+			defer logger.Log("msg", "called endpoint")
+			return next(ctx, request)
+		}
+	}
+}
 ```

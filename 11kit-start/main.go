@@ -8,7 +8,9 @@ import (
 	"go-back/11kit-start/transport"
 	"net"
 	"net/http"
+	"os"
 
+	"github.com/go-kit/log"
 	"golang.org/x/sync/errgroup"
 	"google.golang.org/grpc"
 )
@@ -23,6 +25,8 @@ func main() {
 
 	var g errgroup.Group
 
+	// 初始化logger
+	logger := log.NewLogfmtLogger(os.Stderr)
 	// HTTP服务
 	g.Go(func() error {
 		httpListener, err := net.Listen("tcp", *httpAddr)
@@ -31,7 +35,7 @@ func main() {
 			return err
 		}
 		defer httpListener.Close()
-		httpHandler := transport.NewHTTPServer(bs)
+		httpHandler := transport.NewHTTPServer(bs, logger)
 		return http.Serve(httpListener, httpHandler)
 	})
 
