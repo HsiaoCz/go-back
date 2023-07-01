@@ -19,6 +19,7 @@ func main() {
 }
 
 func sayHello(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.Body)
 	tmpl, err := template.ParseFiles("./hello.html")
 	if err != nil {
 		fmt.Println("create template failed, err:", err)

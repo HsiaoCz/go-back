@@ -22,11 +22,13 @@ var (
 
 func main() {
 	bs := service.NewService()
-
 	var g errgroup.Group
 
 	// 初始化logger
 	logger := log.NewLogfmtLogger(os.Stderr)
+
+	bs = service.NewLogMiddleware(logger, bs)
+
 	// HTTP服务
 	g.Go(func() error {
 		httpListener, err := net.Listen("tcp", *httpAddr)
