@@ -5,6 +5,7 @@ go 1.20
 require (
 	github.com/go-kit/kit v0.12.0
 	github.com/go-kit/log v0.2.0
+	github.com/google/wire v0.5.0
 	github.com/gorilla/mux v1.8.0
 	github.com/spf13/cobra v1.7.0
 	golang.org/x/sync v0.2.0
