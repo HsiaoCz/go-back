@@ -26,6 +26,17 @@ md:=metadata.Pairs(
 // 发送matedata
 // 新建一个matedata的context
 ctx:=metadata.NewOutgoingContext(context.Background(),md)
+
+// 接收metadata
+md,ok:=metadata.FromIncomingContext(ctx)
 ```
 
+### 拦截器
 
+类似于中间件，我们实现拦截器，然后配置到项目里面就好了
+
+可以看看go-grpc-middleware
+
+里面有一些常用的grpc中间件，都是通过实现拦截器实现的
+
+### 拦截器和metadata实现token机制

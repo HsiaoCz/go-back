@@ -37,8 +37,16 @@ func main() {
 		fmt.Printf("failed to listen:%v", err)
 		return
 	}
-
-	s := grpc.NewServer()                  // 创建grpc服务
+	// 定义一个拦截器
+	interceptor := func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
+		fmt.Println("接收到了一个新的请求")
+		fmt.Println(info.FullMethod)
+		res, err := handler(ctx, req)
+		fmt.Println("请求已经完成")
+		return res, err
+	}
+	opt := grpc.UnaryInterceptor(interceptor)
+	s := grpc.NewServer(opt)               // 创建grpc服务
 	pb.RegisterGreeterServer(s, &server{}) // 在grpc服务端注册服务
 	// 启动服务
 	err = s.Serve(lis)
