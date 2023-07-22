@@ -2,11 +2,14 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"go-back/grpc/grpc/server/pb"
+	"log"
 	"net"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/metadata"
 )
 
 // hello server
@@ -16,6 +19,14 @@ type server struct {
 }
 
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloResponse, error) {
+	// 获取metadata
+	md, ok := metadata.FromIncomingContext(ctx)
+	if !ok {
+		log.Fatal(errors.New("failed to get metadata"))
+	}
+	// 将metadata打印出来
+	// 这里有一点，md是一个map[string]string结构
+	fmt.Println(md["hello"][0])
 	return &pb.HelloResponse{Reply: "hello" + in.Name}, nil
 }
 

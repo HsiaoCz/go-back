@@ -2,22 +2,14 @@ syntax="proto3";
 
 package v1;
 
-import "google/api/annotations.proto";
 option go_package="./;v1";
 
 service Greeter{
     rpc Singup(UserSingupRequest) returns (UserSingupResponse){
-        option (google.api.http)={
-          post:"api/v1/signup"
-          body:"*"
-        };
     }
 
     rpc Login(UserLoginRequest) returns (UserLoginResponse){
-        option (google.api.http)={
-          post:"api/v1/login"
-          body:"*"
-        };
+        
     }
 }
 

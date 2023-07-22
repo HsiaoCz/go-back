@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"go-back/grpc/grpc/client/pb"
 	"log"
-	"time"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/metadata"
 )
 
 // hello client
@@ -35,8 +35,9 @@ func main() {
 	c := pb.NewGreeterClient(conn)
 
 	// 执行rpc调用并打印收到的响应数据
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
+	// 生成metadata
+	md := metadata.New(map[string]string{"hello": "hi"})
+	ctx := metadata.NewOutgoingContext(context.Background(), md)
 	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: *name})
 	if err != nil {
 		log.Fatal(err)
