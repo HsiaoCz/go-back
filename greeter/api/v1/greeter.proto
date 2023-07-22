@@ -4,3 +4,43 @@ package v1;
 
 import "google/api/annotations.proto";
 option go_package="./;v1";
+
+service Greeter{
+    rpc Singup(UserSingupRequest) returns (UserSingupResponse){
+        option (google.api.http)={
+          post:"api/v1/signup"
+          body:"*"
+        };
+    }
+
+    rpc Login(UserLoginRequest) returns (UserLoginResponse){
+        option (google.api.http)={
+          post:"api/v1/login"
+          body:"*"
+        };
+    }
+}
+
+// 用户注册请求
+message UserSingupRequest{
+    string username=1;
+    string password=2;
+    string re_password=3;
+}
+// 用户注册的响应
+message UserSingupResponse{
+    int64 code=1;
+    string msg=2;
+}
+
+// 用户登录的请求
+message UserLoginRequest{
+    string username=1;
+    string password=2;
+}
+
+// 用户登录的响应
+message UserLoginResponse{
+    int64 code=1;
+    string msg=2;
+}
