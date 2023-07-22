@@ -1,0 +1,31 @@
+syntax="proto3";
+
+package pb;
+
+option go_package="./;pb";
+
+service Greeter{
+   rpc GetUser(GetUserRequest) returns (GetUserResponse){}
+   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse){}
+}
+
+message GetUserRequest{
+    int64 id=1;
+    string username=2;
+}
+message GetUserResponse{
+    string job=1;
+    string email=2;
+    string content=3;
+}
+
+message UpdateUserRequest{
+    int64 id=1;
+    string username=2;
+    string job=3;
+    string email=4;
+    string content=5;
+}
+message UpdateUserResponse{
+    string err=1;
+}
