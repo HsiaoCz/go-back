@@ -35,8 +35,18 @@ md,ok:=metadata.FromIncomingContext(ctx)
 
 类似于中间件，我们实现拦截器，然后配置到项目里面就好了
 
-可以看看go-grpc-middleware
+可以看看 go-grpc-middleware
 
-里面有一些常用的grpc中间件，都是通过实现拦截器实现的
+里面有一些常用的 grpc 中间件，都是通过实现拦截器实现的
 
-### 拦截器和metadata实现token机制
+### 拦截器和 metadata 实现 token 机制
+
+### grpc 的验证器
+
+这里要去 github 上整这个 proto-gen-validate
+
+```go
+protoc -I=. --go_out=plugins=grpc:. --validate_out="lang=go:." pb/ hello.proto
+```
+
+我测，骚报错
