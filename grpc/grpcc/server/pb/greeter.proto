@@ -1,0 +1,39 @@
+syntax="proto3";
+
+package pb;
+
+option go_package="./;pb";
+
+service Greeter{
+  rpc SayHello(HelloRequest) returns (HelloResponse){}
+  rpc Login(LoginRequest) returns (LoginResponse){}
+  rpc Singup(SingupRequest) returns (SingupResponse){}
+}
+
+message HelloRequest{
+  string name=1;
+}
+
+message HelloResponse{
+  string msg=1;
+}
+
+message LoginRequest{
+  string username=1;
+  string password=2;
+}
+
+message LoginResponse{
+  string msg=1;
+}
+
+message SingupRequest{
+  string username=1;
+  string password=2;
+  string repasword=3;
+}
+
+message SingupResponse{
+  string msg=1;
+  string err=2;
+}
