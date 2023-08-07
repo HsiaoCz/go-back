@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 // 命令模式
 // 命令模式将一个请求封装成一个对象
 // 从而让我们可以用不同的请求，对客户进行参数化
@@ -35,8 +37,7 @@ func (w Waiter) Notify() {
 		return
 	}
 
-	for _,cmd:= range w.CmdList{
+	for _, cmd := range w.CmdList {
 		cmd.Make()
 	}
 }
-

@@ -4,43 +4,43 @@ package main
 
 type OptFunc func(opts *Opts)
 
-type Opts struct{
-    tls bool
-    id string
-    maxConn int
+type Opts struct {
+	tls     bool
+	id      string
+	maxConn int
 }
 
-type server struct{
-    Opts
+type server struct {
+	Opts
 }
 
-func defaultOpts()Opts{
-    return Opts{
-        maxConn:10,
-        id:"hello",
-        tls:false,
-    }
+func defaultOpts() Opts {
+	return Opts{
+		maxConn: 10,
+		id:      "hello",
+		tls:     false,
+	}
 }
 
-func WithMaxConn(maxConn int)OptionFunc{
-    return func(o *Opts){
-        o.maxConn=maxConn
-    }
+func WithMaxConn(maxConn int) OptFunc {
+	return func(o *Opts) {
+		o.maxConn = maxConn
+	}
 }
 
-func Withtls(tls bool)OptionFunc{
-    return func(o *Opts){
-        o.maxConn=maxConn
-    }
+func Withtls(tls bool) OptFunc {
+	return func(o *Opts) {
+		o.tls = tls
+	}
 }
 
-func Withid(id string)OptionFunc{
-    return func(o *Opts){
-        o.id=id
-    }
+func Withid(id string) OptFunc {
+	return func(o *Opts) {
+		o.id = id
+	}
 }
 
-func NewServer(optfuncs ...OptionFunc) *server {
+func NewServer(optfuncs ...OptFunc) *server {
 	o := defaultOpts()
 
 	for _, optfunc := range optfuncs {
@@ -48,4 +48,3 @@ func NewServer(optfuncs ...OptionFunc) *server {
 	}
 	return &server{Opts: o}
 }
-
