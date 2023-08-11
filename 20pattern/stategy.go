@@ -25,6 +25,6 @@ func (h *Hero) SetWeaponStategy(s WeaponStategy) {
 	h.strategy = s
 }
 
-func (h *Hero)Fight(){
+func (h *Hero) Fight() {
 	h.strategy.UseWeapon()
 }
