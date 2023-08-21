@@ -2,8 +2,10 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -33,8 +35,27 @@ func UserRegister(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&user)
 }
 
+func GetUserById(w http.ResponseWriter, r *http.Request) {
+	// 先判断一下是否是get请求
+	switch r.Method {
+	case "GET":
+		id := r.URL.Query().Get("id")
+		userid, err := strconv.Atoi(id)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte("Message:错误的id"))
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(fmt.Sprintf("id:%d", userid)))
+	default:
+		w.WriteHeader(404)
+	}
+}
+
 func main() {
 	http.HandleFunc("/user/register", UserRegister)
+	http.HandleFunc("/user", GetUserById)
 	srv := http.Server{
 		Handler:      nil,
 		Addr:         Addr,
