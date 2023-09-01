@@ -5,6 +5,8 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -32,6 +34,7 @@ type UserRegister struct {
 
 func main() {
 	http.HandleFunc("/user/register", HandleUserRegister)
+	http.HandleFunc("/user/:id", HandleGetUserByID)
 	srv := http.Server{
 		Handler:      nil,
 		Addr:         Addr,
@@ -42,29 +45,60 @@ func main() {
 }
 
 func HandleUserRegister(w http.ResponseWriter, r *http.Request) {
-	// 这种方式是使用form来传递参数
-	// username := r.FormValue("username")
-	// password := r.FormValue("password")
-	// re_password := r.FormValue("re_password")
-	var userR UserRegister
-	json.NewDecoder(r.Body).Decode(&userR)
-	if userR.Password != userR.RePassword {
+	switch r.Method {
+	case "POST":
+		// 这种方式是使用form来传递参数
+		// username := r.FormValue("username")
+		// password := r.FormValue("password")
+		// re_password := r.FormValue("re_password")
+		var userR UserRegister
+		json.NewDecoder(r.Body).Decode(&userR)
+		if userR.Password != userR.RePassword {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			json.NewEncoder(w).Encode(H{
+				"message": "password和re_password不相等,请重新输入",
+			})
+		}
+		user := User{
+			Identity: GenIdnetity(),
+			Username: userR.Username,
+			Password: userR.Password,
+			Content:  "Hello My man",
+			Article:  []string{"遮天", "武动乾坤", "斗破苍穹"},
+		}
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(H{
-			"message": "password和re_password不相等,请重新输入",
-		})
+		json.NewEncoder(w).Encode(&user)
+	default:
+		w.WriteHeader(http.StatusNotFound)
 	}
-	user := User{
-		Identity: GenIdnetity(),
-		Username: userR.Username,
-		Password: userR.Password,
-		Content:  "Hello My man",
-		Article:  []string{"遮天", "武动乾坤", "斗破苍穹"},
+}
+
+func HandleGetUserByID(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "GET":
+		path := r.URL.Path
+		pathStrings := strings.Split(path, "/")
+		id := pathStrings[len(pathStrings)-1]
+		userId, err := strconv.Atoi(id)
+		if err != nil {
+			w.WriteHeader(http.StatusNotFound)
+			return
+		}
+		user := User{
+			Identity: userId,
+			Username: "andy",
+			Password: "不告诉你",
+			Content:  "Hello My Man",
+			Article:  []string{"仙逆", "校花还在贴身高手"},
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(&user)
+	default:
+		w.WriteHeader(http.StatusNotFound)
 	}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(&user)
 }
 
 func GenIdnetity() int {
