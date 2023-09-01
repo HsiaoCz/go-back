@@ -34,7 +34,7 @@ type UserRegister struct {
 
 func main() {
 	http.HandleFunc("/user/register", HandleUserRegister)
-	http.HandleFunc("/user/:id", HandleGetUserByID)
+	http.HandleFunc("/user/getuser", HandleGetUserByID)
 	srv := http.Server{
 		Handler:      nil,
 		Addr:         Addr,
@@ -59,6 +59,7 @@ func HandleUserRegister(w http.ResponseWriter, r *http.Request) {
 			json.NewEncoder(w).Encode(H{
 				"message": "password和re_password不相等,请重新输入",
 			})
+			return
 		}
 		user := User{
 			Identity: GenIdnetity(),
@@ -74,6 +75,12 @@ func HandleUserRegister(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 	}
 }
+
+// 这里使用这种方式实现是错误的
+// 因为要匹配动态路由
+// 需要对路由进行匹配
+// 这里我们需要自己实现一个多路复用器
+// 或者说自己的handler
 
 func HandleGetUserByID(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
