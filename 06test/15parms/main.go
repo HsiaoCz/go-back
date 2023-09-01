@@ -1,7 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
+	"math/rand"
 	"net/http"
 	"time"
 )
@@ -11,6 +13,8 @@ import (
 const (
 	Addr = "127.0.0.1:9091"
 )
+
+type H map[string]any
 
 type User struct {
 	Identity int      `json:"identity"`
@@ -38,5 +42,32 @@ func main() {
 }
 
 func HandleUserRegister(w http.ResponseWriter, r *http.Request) {
+	// 这种方式是使用form来传递参数
+	// username := r.FormValue("username")
+	// password := r.FormValue("password")
+	// re_password := r.FormValue("re_password")
+	var userR UserRegister
+	json.NewDecoder(r.Body).Decode(&userR)
+	if userR.Password != userR.RePassword {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(H{
+			"message": "password和re_password不相等,请重新输入",
+		})
+	}
+	user := User{
+		Identity: GenIdnetity(),
+		Username: userR.Username,
+		Password: userR.Password,
+		Content:  "Hello My man",
+		Article:  []string{"遮天", "武动乾坤", "斗破苍穹"},
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(&user)
+}
 
+func GenIdnetity() int {
+	randen := rand.New(rand.NewSource(time.Now().UnixNano()))
+	return randen.Intn(1000000)
 }
