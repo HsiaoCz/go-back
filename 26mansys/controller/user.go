@@ -23,3 +23,15 @@ func HandleUserRegister(c *gin.Context) {
 		"Message": "注册成功",
 	})
 }
+
+func HandleUserLogin(c *gin.Context) {
+	var userl UserL
+	err := c.BindJSON(userl)
+	if err != nil {
+		c.Status(http.StatusNotFound)
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"Message": "登录成功",
+	})
+}
