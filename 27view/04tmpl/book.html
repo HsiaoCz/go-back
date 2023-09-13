@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book</title>
+    <style>
+      .list {
+        text-align: center;
+      }
+      .op {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <ul class="list">
+      <li class="op">{{ .BookName }}</li>
+      <li class="op">{{ .Auther }}</li>
+      <li class="op">{{ .Title }}</li>
+      <li class="op">{{ .Content }}</li>
+      <li class="op">{{ .Type }}</li>
+    </ul>
+  </body>
+</html>
