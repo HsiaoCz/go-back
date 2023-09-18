@@ -1,12 +1,15 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"log"
 	"net/http"
 	"sync"
 	"time"
 )
+
+var MS = NewMStack(100)
 
 type MStack struct {
 	lock   sync.Mutex
@@ -48,10 +51,23 @@ const (
 	addr = "127.0.0.1:9091"
 )
 
+type H map[string]any
 
+type Book struct {
+	Identity string `json:"identity"`
+	Auther   string `json:"auther"`
+	Type     string `json:"type"`
+}
+
+func ResponseJSON(w http.ResponseWriter, code int, data any) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(code)
+	return json.NewEncoder(w).Encode(data)
+}
 
 func main() {
 	http.HandleFunc("/user/set", HandleUserSet)
+	http.HandleFunc("/user/get", HandleGetBook)
 	srv := http.Server{
 		Handler:      nil,
 		Addr:         addr,
@@ -62,5 +78,21 @@ func main() {
 }
 
 func HandleUserSet(w http.ResponseWriter, r *http.Request) {
+	book := new(Book)
+	json.NewDecoder(r.Body).Decode(book)
+	err := MS.InStack(book)
+	if err != nil {
+		log.Fatal(err)
+	}
+	ResponseJSON(w, http.StatusOK, H{
+		"Msg": "success to post book",
+	})
+}
 
+func HandleGetBook(w http.ResponseWriter, r *http.Request) {
+	book, err := MS.OutStack()
+	if err != nil {
+		log.Fatal(err)
+	}
+	ResponseJSON(w, http.StatusOK, book)
 }
